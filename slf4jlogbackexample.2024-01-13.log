@@ -1,0 +1,17 @@
+13.01.2024 21:46:14.259 [main] INFO   org.example.Server - Server has started
+13.01.2024 21:55:39.314 [main] INFO   org.example.Server - Server has started
+13.01.2024 21:57:24.241 [main] INFO   org.example.Server - Севрер запущен
+13.01.2024 22:24:21.772 [main] INFO   org.example.Server - Server has started
+13.01.2024 22:24:32.705 [Thread-0] INFO   org.example.Server - The new client has joined
+13.01.2024 22:24:50.637 [Thread-1] INFO   org.example.Server - The client alexsent a message: We are welcoming new member alex
+13.01.2024 22:29:26.689 [main] INFO   org.example.Server - Server has started
+13.01.2024 22:29:32.739 [main] INFO   org.example.Server - Server has started
+13.01.2024 22:29:41.527 [Thread-0] INFO   org.example.Server - The new client has joined
+13.01.2024 22:29:44.374 [Thread-1] ERROR  org.example.Server - The name not received
+13.01.2024 22:29:47.432 [Thread-0] INFO   org.example.Server - The new client has joined
+13.01.2024 22:30:40.859 [main] INFO   org.example.Server - Server has started
+13.01.2024 22:31:16.795 [main] INFO   org.example.Server - Server has started
+13.01.2024 22:31:25.730 [main] INFO   org.example.Server - Server has started
+13.01.2024 22:31:31.561 [Thread-0] INFO   org.example.Server - The new client has joined
+13.01.2024 22:31:40.409 [Thread-1] INFO   org.example.Server - The client mike sent a message: We are welcoming new member mike
+13.01.2024 22:32:28.544 [Thread-1] ERROR  org.example.Server - message not received

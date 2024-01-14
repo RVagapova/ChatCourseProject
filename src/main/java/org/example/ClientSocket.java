@@ -22,7 +22,6 @@ public class ClientSocket extends Thread {
 
     @Override
     public void run() {
-
         while (true) {
             String name;
             try {
@@ -32,14 +31,17 @@ public class ClientSocket extends Thread {
                 name = reader.readLine();
                 System.out.println(name);
             } catch (IOException e) {
+                Server.logger.warn("The name not received");
                 throw new RuntimeException(e);
             }
             if (name != null) {
                 //проверка имеется ли активный клиент с таким же никнеймом
                 if (!Server.clients.stream().map(ClientSocket::getClientName).toList().contains(name)) {
                     this.clientName = name;
-                    Server.sendMsgToAllClients(clientName, "We are welcoming new member " + name);
+                    sendMsgToAllClients(clientName, "We are welcoming new member " + name);
                     break;
+                } else {
+                    Server.logger.warn("We have a client with the same name");
                 }
             }
         }
@@ -50,18 +52,16 @@ public class ClientSocket extends Thread {
                 msg = reader.readLine();
                 System.out.println(msg);
             } catch (IOException e) {
+                Server.logger.error("message not received");
                 throw new RuntimeException(e);
             }
             if (msg != null) {
                 if (msg.equals("/exit")) {
-//                    TODO запрос на отключение
-                    Server.sendMsgToAllClients(clientName, "We are saying good bye to " + clientName);
+                    sendMsgToAllClients(clientName, "We are saying good bye to " + clientName);
                     stopClient();
                     break;
                 } else {
-                    System.out.println("msg != exit");
-                    Server.sendMsgExceptSender(clientName, msg);
-//                        TODO Отправка сообщения
+                    sendMsgExceptSender(clientName, msg);
                 }
             }
         }
@@ -74,8 +74,9 @@ public class ClientSocket extends Thread {
             reader.close();
             writer.close();
             socket.close();
-//                TODO отключение клиента
+            Server.logger.info("Disconnection with client");
         } catch (IOException e) {
+            Server.logger.error("Error with stopClient");
             throw new RuntimeException(e);
         }
 
@@ -85,9 +86,24 @@ public class ClientSocket extends Thread {
         try {
             writer.write(msg + "\n");
             writer.flush();
-//            TODO отправлено сообщение
         } catch (IOException e) {
             throw new RuntimeException(e);
+        }
+    }
+
+    private void sendMsgExceptSender(String name, String msg) {
+        for (ClientSocket client : Server.clients) {
+            if (!client.getClientName().equals(name)) {
+                client.sendMsg(name + ": " + msg);
+                Server.logger.info("The client " + name + " sent a message: " + msg);
+            }
+        }
+    }
+
+    private void sendMsgToAllClients(String name, String msg) {
+        for (ClientSocket client : Server.clients) {
+            client.sendMsg(name + ": " + msg);
+            Server.logger.info("The client " + name + " sent a message: " + msg);
         }
     }
 }

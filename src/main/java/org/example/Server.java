@@ -1,5 +1,8 @@
 package org.example;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.InetAddress;
@@ -10,10 +13,13 @@ import java.util.Properties;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 public class Server extends Thread {
+
     private final ServerSocket serverSocket;
-    public static List<ClientSocket> clients = new CopyOnWriteArrayList<>();
+    public static final List<ClientSocket> clients = new CopyOnWriteArrayList<>();
+    public static Logger logger = LoggerFactory.getLogger(Server.class);
 
     public Server() throws IOException {
+        //логгер
         InputStream resources = getClass().getClassLoader().getResourceAsStream("properties.yaml");
         Properties properties = new Properties();
         properties.load(resources);
@@ -22,8 +28,7 @@ public class Server extends Thread {
         }
         InetAddress inetAddress = InetAddress.getByName(properties.getProperty("host"));
         serverSocket = new ServerSocket(Integer.parseInt(properties.getProperty("port")), 50, inetAddress);
-//        TODO сервер запущен
-        System.out.println("Server has started");
+        logger.info("Server has started");
     }
 
     @Override
@@ -31,26 +36,12 @@ public class Server extends Thread {
         while (true) {
             try {
                 Socket clientSocket = serverSocket.accept();
-                System.out.println("The new client has joined");
                 clients.add(new ClientSocket(clientSocket));
-//                TODO подключение клиента
+                logger.info("The new client has joined");
             } catch (IOException e) {
+                logger.error("The client couldn't connect");
                 throw new RuntimeException(e);
             }
-        }
-    }
-
-    public static void sendMsgExceptSender(String name, String msg) {
-        for (ClientSocket client : clients) {
-            if (!client.getClientName().equals(name)) {
-                client.sendMsg(name + ": " + msg);
-            }
-        }
-    }
-
-    public static void sendMsgToAllClients(String name, String msg) {
-        for (ClientSocket client : clients) {
-            client.sendMsg(name + ": " + msg);
         }
     }
 }
