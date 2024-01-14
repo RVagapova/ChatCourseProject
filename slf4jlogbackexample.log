@@ -41,3 +41,7 @@
 14.01.2024 14:38:28.864 [main] INFO   org.example.Server - Server has started
 14.01.2024 14:38:40.519 [Thread-0] INFO   org.example.Server - The new client has joined
 14.01.2024 14:38:48.397 [Thread-1] INFO   org.example.Server - The client lkj sent a message: We are welcoming new member lkj
+14.01.2024 15:11:36.882 [Test worker] INFO   org.example.Server - Server has started
+14.01.2024 15:11:36.887 [Thread-3] INFO   org.example.Server - The new client has joined
+14.01.2024 15:11:48.342 [Test worker] INFO   org.example.Server - Server has started
+14.01.2024 15:11:48.346 [Thread-3] INFO   org.example.Server - The new client has joined

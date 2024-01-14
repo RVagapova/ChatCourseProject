@@ -15,7 +15,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class ServerTest {
 
     @Test
-    public void testClientPresence() throws IOException {
+    public void сlientPresenceTest() throws IOException {
         Server server = new Server();
         server.start();
 
@@ -29,8 +29,6 @@ public class ServerTest {
         InetAddress inetAddress = InetAddress.getByName(properties.getProperty("host"));
         Socket socket = new Socket(inetAddress, Integer.parseInt(properties.getProperty("port")));
         OutputStreamWriter writer = new OutputStreamWriter(socket.getOutputStream());
-        writer.write("Regina");
-        writer.flush();
         Awaitility.await().atMost(5L, TimeUnit.SECONDS).until(() -> !Server.clients.isEmpty());
         assertEquals(1, Server.clients.size());
 
